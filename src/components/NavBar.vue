@@ -1,377 +1,525 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-
-const menuOpen = ref(false)
-const scrolled = ref(false)
-const darkMode = ref(false)
-
-const links = [
-  { name: 'Features', id: 'features' },
-  { name: 'Developer', id: 'developer' },
-  { name: 'Company', id: 'company' },
-  { name: 'Contact', id: 'contact' }
-]
-
-const handleScroll = () => {
-  scrolled.value = window.scrollY > 20
-}
-
-const toggleTheme = () => {
-  darkMode.value = !darkMode.value
-
-  if (darkMode.value) {
-    document.documentElement.setAttribute('data-theme', 'dark')
-  } else {
-    document.documentElement.removeAttribute('data-theme')
-  }
-}
-
-const closeMenu = () => {
-  menuOpen.value = false
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
-</script>
-
 <template>
-  <div class="announce-bar">
-    💳 Introducing 1App USD Virtual Cards. Get yours instantly.
-    <a href="#features">Learn more →</a>
-  </div>
+  <header class="navbar" :class="{ scrolled: isScrolled, open: menuOpen }">
+    <div class="nav-shell">
 
-  <header class="nav" :class="{ scrolled }">
-    <div class="nav-inner">
-      <a href="#top" class="logo" @click="closeMenu">
-        <img src="/assets/logo.png" alt="1App" class="logo-full" />
+      <!-- Logo -->
+      <a href="#" class="brand" @click="closeMenu">
+        <img src="/assets/logo.png" alt="1app" />
       </a>
 
-      <nav class="navlinks">
-        <a
-          v-for="link in links"
-          :key="link.id"
-          :href="'#' + link.id"
-        >
-          {{ link.name }}
-        </a>
+      <!-- Desktop Navigation -->
+      <nav class="desktop-nav">
+        <a href="#product">Product</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#developers">Developers</a>
+        <a href="#security">Security</a>
       </nav>
 
-      <div class="navright">
-        <button
-          class="theme-toggle"
-          type="button"
-          @click="toggleTheme"
-          :aria-label="darkMode ? 'Switch to light mode' : 'Switch to dark mode'"
-        >
-          {{ darkMode ? '☀' : '☾' }}
-        </button>
-
-        <a href="#login" class="nav-login">
-          Log in
-        </a>
-
-        <a href="#wallet" class="btn btn-pink">
-          Open Your Wallet
+      <!-- Desktop Actions -->
+      <div class="nav-actions">
+        <a href="#" class="login-link">Log in</a>
+        <a href="#cta" class="nav-cta">
+          Get started
+          <span>↗</span>
         </a>
       </div>
 
+      <!-- Mobile Toggle -->
       <button
-        class="hamburger-btn"
-        :class="{ open: menuOpen }"
+        class="menu-toggle"
         type="button"
-        @click="menuOpen = !menuOpen"
         :aria-expanded="menuOpen"
-        aria-label="Toggle menu"
+        aria-label="Toggle navigation"
+        @click="toggleMenu"
       >
-        <span></span>
         <span></span>
         <span></span>
       </button>
     </div>
 
-    <div v-if="menuOpen" class="mobile-menu">
-      <div class="mobile-menu-links">
-        <a
-          v-for="link in links"
-          :key="link.id"
-          :href="'#' + link.id"
-          @click="closeMenu"
-        >
-          {{ link.name }}
-        </a>
+    <!-- Mobile Menu -->
+    <Transition name="mobile-menu">
+      <div v-if="menuOpen" class="mobile-menu">
+
+        <div class="mobile-links">
+          <a href="#product" @click="closeMenu">
+            <span>01</span>
+            Product
+            <b>↗</b>
+          </a>
+
+          <a href="#how-it-works" @click="closeMenu">
+            <span>02</span>
+            How it works
+            <b>↗</b>
+          </a>
+
+          <a href="#developers" @click="closeMenu">
+            <span>03</span>
+            Developers
+            <b>↗</b>
+          </a>
+
+          <a href="#security" @click="closeMenu">
+            <span>04</span>
+            Security
+            <b>↗</b>
+          </a>
+        </div>
+
+        <div class="mobile-actions">
+          <a href="#" class="mobile-login" @click="closeMenu">
+            Log in
+          </a>
+
+          <a href="#cta" class="mobile-cta" @click="closeMenu">
+            Get started
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div class="mobile-footer">
+          <span>ONE APP</span>
+          <span>YOUR MONEY. EVERYWHERE.</span>
+        </div>
       </div>
-
-      <div class="mobile-menu-actions">
-        <button
-          class="theme-toggle mobile-theme-btn"
-          type="button"
-          @click="toggleTheme"
-        >
-          {{ darkMode ? '☀ Light mode' : '☾ Dark mode' }}
-        </button>
-
-        <a href="#login" class="btn btn-outline" @click="closeMenu">
-          Log in
-        </a>
-
-        <a href="#wallet" class="btn btn-pink" @click="closeMenu">
-          Open Your Wallet
-        </a>
-      </div>
-    </div>
+    </Transition>
   </header>
 </template>
 
+<script setup>
+import { onMounted, onBeforeUnmount, ref } from 'vue'
+
+const isScrolled = ref(false)
+const menuOpen = ref(false)
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 24
+}
+
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value
+
+  document.body.style.overflow = menuOpen.value ? 'hidden' : ''
+}
+
+const closeMenu = () => {
+  menuOpen.value = false
+  document.body.style.overflow = ''
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+  document.body.style.overflow = ''
+})
+</script>
+
 <style scoped>
-.announce-bar {
-  background: var(--ink);
-  color: #fff;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 9px 16px;
-  position: relative;
-  z-index: 250;
-}
-
-.announce-bar a {
-  color: #ff9ec8;
-  font-weight: 600;
-  margin-left: 4px;
-}
-
-.nav {
-  position: sticky;
+.navbar {
+  position: fixed;
   top: 0;
-  z-index: 200;
-  transition: all 0.3s ease;
-  padding: 18px 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 20px 28px;
+  transition:
+    padding 0.35s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
-.nav.scrolled {
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--line);
-  padding: 12px 0;
-  box-shadow: 0 12px 40px -24px rgba(224, 30, 122, 0.35);
-}
+.nav-shell {
+  width: min(1240px, 100%);
+  margin: 0 auto;
 
-.nav-inner {
+  min-height: 72px;
+  padding: 0 12px 0 20px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1220px;
-  margin: 0 auto;
-  padding: 0 32px;
+  gap: 30px;
+
+  border: 1px solid transparent;
+  border-radius: 999px;
+
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    backdrop-filter 0.35s ease;
 }
 
-.logo {
+.navbar.scrolled {
+  padding-top: 12px;
+}
+
+.navbar.scrolled .nav-shell {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(20, 18, 27, 0.08);
+  box-shadow: 0 12px 40px rgba(27, 22, 64, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+/* Logo */
+
+.brand {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
-.logo-full {
-  height: 30px;
-  width: auto;
+.brand img {
+  width: 94px;
+  height: auto;
   display: block;
 }
 
-.navlinks {
+/* Desktop nav */
+
+.desktop-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14.5px;
-  font-weight: 500;
+  gap: 34px;
+  margin-left: auto;
 }
 
-.navlinks a {
+.desktop-nav a,
+.login-link {
   position: relative;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: color 0.2s ease;
+
+  color: var(--ink, #14121b);
+  text-decoration: none;
+
+  font-family: var(--font-body, Inter, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: color 0.25s ease;
 }
 
-.navlinks a:hover {
-  color: var(--pink);
-}
+.desktop-nav a::after {
+  content: '';
 
-.navright {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
+  position: absolute;
+  left: 0;
+  bottom: -6px;
 
-.nav-login {
-  font-size: 14.5px;
-  font-weight: 500;
-}
+  width: 100%;
+  height: 1px;
 
-.nav-login:hover {
-  color: var(--pink);
-}
+  background: var(--pink, #e01e7a);
 
-.theme-toggle {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1.5px solid var(--line);
-  background: var(--surface);
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
+  transform: scaleX(0);
+  transform-origin: right;
+
   transition: transform 0.3s ease;
 }
 
-.theme-toggle:hover {
-  transform: rotate(20deg);
+.desktop-nav a:hover {
+  color: var(--pink, #e01e7a);
 }
 
-.btn-pink {
-  background: linear-gradient(
-    115deg,
-    var(--pink),
-    var(--pink-2),
-    var(--pink)
-  );
-  background-size: 220% 100%;
-  color: #fff;
-  box-shadow: var(--shadow-pink-sm);
-  animation: gradientShift 5s ease infinite;
+.desktop-nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
-.btn-pink:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-pink-md);
+/* Actions */
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+.login-link:hover {
+  color: var(--pink, #e01e7a);
 }
 
-.btn-outline {
-  background: transparent;
-  border: 1.5px solid var(--line);
-  color: var(--text);
+.nav-cta {
+  min-height: 48px;
+  padding: 0 18px 0 20px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+
+  border-radius: 999px;
+
+  background: var(--ink, #14121b);
+  color: white;
+
+  text-decoration: none;
+
+  font-family: var(--font-body, Inter, sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.btn-outline:hover {
-  border-color: var(--pink);
-  color: var(--pink);
-  transform: translateY(-3px);
+.nav-cta span {
+  width: 27px;
+  height: 27px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--pink, #e01e7a);
+  color: white;
+
+  font-size: 14px;
+
+  transition: transform 0.25s ease;
 }
 
-.hamburger-btn {
+.nav-cta:hover {
+  transform: translateY(-2px);
+  background: var(--navy, #1b1640);
+  box-shadow: 0 12px 28px rgba(27, 22, 64, 0.18);
+}
+
+.nav-cta:hover span {
+  transform: rotate(45deg);
+}
+
+/* Mobile toggle */
+
+.menu-toggle {
+  width: 48px;
+  height: 48px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: var(--ink, #14121b);
+
   display: none;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 5px;
-  width: 38px;
-  height: 38px;
-  border: 1.5px solid var(--line);
-  border-radius: 9px;
-  background: var(--surface);
-  padding: 0;
+  gap: 6px;
+
+  cursor: pointer;
 }
 
-.hamburger-btn span {
-  display: block;
-  width: 18px;
-  height: 2px;
-  background: var(--text);
-  margin: 0 auto;
-  border-radius: 2px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+.menu-toggle span {
+  width: 17px;
+  height: 1.5px;
+
+  background: white;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
-.hamburger-btn.open span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+.navbar.open .menu-toggle span:first-child {
+  transform: translateY(3.75px) rotate(45deg);
 }
 
-.hamburger-btn.open span:nth-child(2) {
-  opacity: 0;
+.navbar.open .menu-toggle span:last-child {
+  transform: translateY(-3.75px) rotate(-45deg);
 }
 
-.hamburger-btn.open span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
+/* Mobile menu */
 
 .mobile-menu {
-  border-top: 1px solid var(--line);
-  background: var(--bg);
-  overflow: hidden;
-}
+  position: fixed;
+  inset: 0;
+  z-index: -1;
 
-.mobile-menu-links {
+  min-height: 100vh;
+  padding: 120px 28px 30px;
+
   display: flex;
   flex-direction: column;
-  padding: 10px 20px;
+
+  background: #fff;
 }
 
-.mobile-menu-links a {
-  padding: 13px 4px;
-  font-size: 15.5px;
+.mobile-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-links a {
+  min-height: 74px;
+
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+
+  border-bottom: 1px solid rgba(20, 18, 27, 0.1);
+
+  color: var(--ink, #14121b);
+  text-decoration: none;
+
+  font-family: var(--font-display, Fraunces, serif);
+  font-size: clamp(27px, 8vw, 42px);
+  letter-spacing: -0.04em;
+}
+
+.mobile-links a span {
+  align-self: start;
+  padding-top: 12px;
+
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  letter-spacing: 0;
+  color: var(--grey, #6b6875);
+}
+
+.mobile-links a b {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--pink-light, #fde8f1);
+  color: var(--pink, #e01e7a);
+
+  font-family: var(--font-body, Inter, sans-serif);
+  font-size: 15px;
   font-weight: 500;
-  color: var(--text);
-  border-bottom: 1px solid var(--line);
 }
 
-.mobile-menu-actions {
-  display: flex;
-  flex-direction: column;
+.mobile-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
-  padding: 16px 20px 20px;
+
+  margin-top: auto;
 }
 
-.mobile-theme-btn {
-  width: 100%;
-  border-radius: 9px;
+.mobile-login,
+.mobile-cta {
+  min-height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  text-decoration: none;
+
+  font-family: var(--font-body, Inter, sans-serif);
+  font-size: 14px;
+  font-weight: 700;
 }
 
-.mobile-menu-actions .btn {
-  width: 100%;
+.mobile-login {
+  border: 1px solid rgba(20, 18, 27, 0.12);
+  color: var(--ink, #14121b);
 }
 
-@media (max-width: 960px) {
-  .navlinks,
-  .navright {
+.mobile-cta {
+  gap: 10px;
+
+  background: var(--pink, #e01e7a);
+  color: white;
+}
+
+.mobile-cta span {
+  font-size: 16px;
+}
+
+.mobile-footer {
+  margin-top: 18px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-family: var(--font-mono, monospace);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+
+  color: var(--grey, #6b6875);
+}
+
+/* Transition */
+
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition:
+    opacity 0.3s ease,
+    transform 0.35s ease;
+}
+
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .desktop-nav,
+  .nav-actions {
     display: none;
   }
 
-  .hamburger-btn {
+  .menu-toggle {
     display: flex;
+  }
+
+  .navbar {
+    padding: 14px 16px;
+  }
+
+  .nav-shell {
+    min-height: 64px;
+    padding-left: 18px;
+  }
+
+  .brand img {
+    width: 88px;
   }
 }
 
-@media (max-width: 640px) {
-  .nav-inner {
-    padding: 0 20px;
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 12px;
   }
 
-  .logo-full {
-    height: 27px;
+  .nav-shell {
+    min-height: 60px;
+    padding-left: 16px;
+    padding-right: 7px;
   }
 
-  .announce-bar {
-    font-size: 12px;
-    line-height: 1.5;
+  .brand img {
+    width: 82px;
+  }
+
+  .menu-toggle {
+    width: 45px;
+    height: 45px;
+  }
+
+  .mobile-menu {
+    padding: 105px 20px 22px;
+  }
+
+  .mobile-links a {
+    grid-template-columns: 34px 1fr auto;
+    min-height: 70px;
   }
 }
 </style>

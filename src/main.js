@@ -1,5 +1,12 @@
 import { createApp } from 'vue'
+
 import App from './App.vue'
+import { reveal } from './reveal'
+
 import './style.css'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+app.directive('reveal', reveal)
+
+app.mount('#app')

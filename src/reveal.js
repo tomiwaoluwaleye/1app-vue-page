@@ -1,20 +1,42 @@
-// Lightweight v-reveal directive: adds .is-visible once an element
-// enters the viewport. Used deliberately, not on every single card.
+// 1app — lightweight scroll reveal system
+// Adds a reveal class when an element enters the viewport.
+
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible')
-        observer.unobserve(entry.target)
-      }
+      if (!entry.isIntersecting) return
+
+      entry.target.classList.add('is-visible')
+
+      observer.unobserve(entry.target)
     })
   },
-  { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+  {
+    threshold: 0.12,
+    rootMargin: '0px 0px -60px 0px',
+  }
 )
 
 export const reveal = {
-  mounted(el) {
-    el.classList.add('reveal')
+  mounted(el, binding) {
+    // Default reveal
+    let type = binding.value || 'default'
+
+    const classes = {
+      default: 'reveal',
+      up: 'reveal-up',
+      scale: 'reveal-scale',
+      left: 'reveal-left',
+      right: 'reveal-right',
+      stagger: 'reveal-stagger',
+    }
+
+    el.classList.add(classes[type] || 'reveal')
+
     observer.observe(el)
+  },
+
+  unmounted(el) {
+    observer.unobserve(el)
   },
 }
