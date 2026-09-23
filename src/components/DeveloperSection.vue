@@ -843,4 +843,198 @@ function selectEndpoint(index) {
 
 }
 
+/* =========================================================
+   PREMIUM TRANSFER STUDIO MOTION
+   ========================================================= */
+
+.transfer-studio,
+.interactive-demo {
+  perspective: 1200px;
+}
+
+/* Main transfer panel */
+.transfer-panel,
+.transfer-card,
+.demo-card {
+  transition:
+    transform .5s cubic-bezier(.2,.75,.2,1),
+    box-shadow .5s ease;
+}
+
+.transfer-panel:hover,
+.transfer-card:hover,
+.demo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 60px rgba(27, 22, 64, .12);
+}
+
+/* Currency selector */
+.currency-select,
+.currency-option,
+.currency-pill {
+  transition:
+    transform .3s cubic-bezier(.2,.75,.2,1),
+    background .3s ease,
+    border-color .3s ease;
+}
+
+.currency-select:hover,
+.currency-option:hover,
+.currency-pill:hover {
+  transform: translateY(-3px);
+}
+
+/* Active currency */
+.currency-select.active,
+.currency-option.active,
+.currency-pill.active {
+  box-shadow: 0 10px 25px rgba(224, 30, 122, .12);
+}
+
+/* Amount display */
+.transfer-amount,
+.amount-display,
+.demo-amount {
+  animation: amountBreath 4s ease-in-out infinite;
+}
+
+@keyframes amountBreath {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.015);
+  }
+}
+
+/* Transfer arrow */
+.transfer-arrow,
+.swap-arrow,
+.exchange-arrow {
+  transition:
+    transform .45s cubic-bezier(.2,.75,.2,1),
+    background .3s ease;
+}
+
+.transfer-arrow:hover,
+.swap-arrow:hover,
+.exchange-arrow:hover {
+  transform: rotate(180deg) scale(1.08);
+}
+
+/* Exchange / route line */
+.transfer-route,
+.exchange-route,
+.demo-route {
+  position: relative;
+}
+
+.transfer-route::after,
+.exchange-route::after,
+.demo-route::after {
+  content: '';
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: 50%;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(224, 30, 122, .5),
+    transparent
+  );
+
+  animation: transferRoute 2.8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes transferRoute {
+  0% {
+    opacity: .2;
+    transform: scaleX(.65);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: .2;
+    transform: scaleX(.65);
+  }
+}
+
+/* Result panel */
+.transfer-result,
+.exchange-result,
+.demo-result {
+  animation: resultReveal .7s cubic-bezier(.2,.75,.2,1);
+}
+
+@keyframes resultReveal {
+  from {
+    opacity: .5;
+    transform: translateY(8px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Status indicator */
+.transfer-status,
+.demo-status,
+.status-dot {
+  animation: transferStatus 2s ease-in-out infinite;
+}
+
+@keyframes transferStatus {
+  0%, 100% {
+    opacity: .55;
+    box-shadow: 0 0 0 0 rgba(224, 30, 122, .15);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 7px rgba(224, 30, 122, .06);
+  }
+}
+
+/* CTA */
+.transfer-cta,
+.demo-cta {
+  transition:
+    transform .35s cubic-bezier(.2,.75,.2,1),
+    box-shadow .35s ease;
+}
+
+.transfer-cta:hover,
+.demo-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(224, 30, 122, .18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transfer-amount,
+  .amount-display,
+  .demo-amount,
+  .transfer-route::after,
+  .exchange-route::after,
+  .demo-route::after,
+  .transfer-result,
+  .exchange-result,
+  .demo-result,
+  .transfer-status,
+  .demo-status,
+  .status-dot {
+    animation: none;
+  }
+}
+
 </style>

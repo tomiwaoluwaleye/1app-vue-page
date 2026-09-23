@@ -461,4 +461,57 @@ const cols = [
     text-align: left;
   }
 }
+
+
+/* =========================================================
+   PREMIUM FOOTER MOTION
+   ========================================================= */
+
+.site-footer,
+.footer {
+  overflow: hidden;
+}
+
+.footer-link,
+.site-footer a {
+  transition:
+    color .25s ease,
+    transform .25s ease;
+}
+
+.footer-link:hover,
+.site-footer a:hover {
+  transform: translateX(3px);
+}
+
+.footer-brand,
+.footer-logo {
+  transition: transform .4s cubic-bezier(.2,.75,.2,1);
+}
+
+.footer-brand:hover,
+.footer-logo:hover {
+  transform: translateY(-2px);
+}
+
+.footer-glow {
+  animation: footerGlow 8s ease-in-out infinite;
+}
+
+@keyframes footerGlow {
+  0%,100% {
+    opacity: .25;
+  }
+
+  50% {
+    opacity: .6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-glow {
+    animation: none;
+  }
+}
+
 </style>

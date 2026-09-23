@@ -661,4 +661,178 @@ onUnmounted(() => {
 
 }
 
+/* =========================================================
+   PREMIUM GLOBAL MOVEMENT
+   ========================================================= */
+
+.global-map,
+.movement-map,
+.live-map {
+  position: relative;
+  overflow: hidden;
+}
+
+/* atmospheric glow */
+.global-map::before,
+.movement-map::before,
+.live-map::before {
+  content: '';
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(224, 30, 122, .07);
+  filter: blur(80px);
+  animation: globalGlow 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes globalGlow {
+  0%, 100% {
+    opacity: .45;
+    transform: translate(-50%, -50%) scale(.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-48%, -52%) scale(1.12);
+  }
+}
+
+/* map / world graphic */
+.global-map svg,
+.movement-map svg,
+.live-map svg {
+  transition: transform 1s cubic-bezier(.2,.75,.2,1);
+}
+
+.global-map:hover svg,
+.movement-map:hover svg,
+.live-map:hover svg {
+  transform: scale(1.025);
+}
+
+/* route lines */
+.route,
+.map-route,
+.connection {
+  stroke-dasharray: 10 14;
+  animation: routeDash 3.5s linear infinite;
+}
+
+@keyframes routeDash {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+/* glowing route points */
+.route-point,
+.map-point,
+.location-dot {
+  animation: locationPulse 2.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes locationPulse {
+  0%, 100% {
+    opacity: .55;
+    transform: scale(.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+/* country / currency chips */
+.country-chip,
+.currency-chip,
+.location-chip {
+  transition:
+    transform .4s cubic-bezier(.2,.75,.2,1),
+    box-shadow .4s ease;
+}
+
+.country-chip:hover,
+.currency-chip:hover,
+.location-chip:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 35px rgba(27, 22, 64, .12);
+}
+
+/* floating movement cards */
+.movement-card,
+.global-card,
+.location-card {
+  animation: globalFloat 5s ease-in-out infinite;
+}
+
+.movement-card:nth-child(2),
+.global-card:nth-child(2),
+.location-card:nth-child(2) {
+  animation-delay: -1.7s;
+}
+
+.movement-card:nth-child(3),
+.global-card:nth-child(3),
+.location-card:nth-child(3) {
+  animation-delay: -3.2s;
+}
+
+@keyframes globalFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* horizontal ticker movement */
+.ticker-track,
+.movement-track {
+  animation: tickerMove 24s linear infinite;
+}
+
+@keyframes tickerMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-35%);
+  }
+}
+
+/* pause when exploring */
+.ticker-track:hover,
+.movement-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .global-map::before,
+  .movement-map::before,
+  .live-map::before,
+  .route,
+  .map-route,
+  .connection,
+  .route-point,
+  .map-point,
+  .location-dot,
+  .movement-card,
+  .global-card,
+  .location-card,
+  .ticker-track,
+  .movement-track {
+    animation: none;
+  }
+}
+
 </style>

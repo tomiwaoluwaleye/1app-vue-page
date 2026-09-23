@@ -522,4 +522,69 @@ onBeforeUnmount(() => {
     min-height: 70px;
   }
 }
+
+
+/* =========================================================
+   PREMIUM NAV MOTION
+   ========================================================= */
+
+.navbar,
+.nav,
+.nav-inner {
+  transition:
+    background .35s ease,
+    box-shadow .35s ease,
+    border-color .35s ease;
+}
+
+.nav-link {
+  position: relative;
+  transition:
+    color .25s ease,
+    transform .25s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--pink, #e01e7a);
+  transform: translateX(-50%);
+  transition: width .3s cubic-bezier(.2,.75,.2,1);
+}
+
+.nav-link:hover {
+  transform: translateY(-1px);
+}
+
+.nav-link:hover::after {
+  width: 18px;
+}
+
+.nav-cta {
+  transition:
+    transform .3s cubic-bezier(.2,.75,.2,1),
+    box-shadow .3s ease;
+}
+
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(224,30,122,.18);
+}
+
+.nav-logo,
+.logo {
+  transition: transform .35s cubic-bezier(.2,.75,.2,1);
+}
+
+.nav-logo:hover,
+.logo:hover {
+  transform: scale(1.025);
+}
+
+
 </style>

@@ -832,4 +832,156 @@ function selectBank(index) {
   }
 
 }
+
+/* =========================================================
+   PREMIUM CARD MOTION
+   ========================================================= */
+
+.card-feature,
+.card-showcase {
+  perspective: 1400px;
+}
+
+/* Main card image */
+.card-image,
+.card-visual,
+.bank-card {
+  transform-style: preserve-3d;
+  transition:
+    transform .7s cubic-bezier(.2,.75,.2,1),
+    box-shadow .7s ease;
+  will-change: transform;
+}
+
+.card-image:hover,
+.card-visual:hover,
+.bank-card:hover {
+  transform:
+    rotateY(-7deg)
+    rotateX(4deg)
+    translateY(-10px)
+    scale(1.015);
+
+  box-shadow:
+    0 35px 70px rgba(27, 22, 64, .20);
+}
+
+/* Light sweep across the card */
+.card-image,
+.card-visual,
+.bank-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-image::after,
+.card-visual::after,
+.bank-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    rgba(255, 255, 255, .20) 48%,
+    transparent 68%
+  );
+
+  transform: translateX(-130%);
+  animation: cardShine 5.5s ease-in-out infinite;
+}
+
+@keyframes cardShine {
+  0%, 55% {
+    transform: translateX(-130%);
+  }
+
+  75%, 100% {
+    transform: translateX(130%);
+  }
+}
+
+/* Floating card depth */
+.card-image,
+.card-visual,
+.bank-card {
+  animation: cardFloat 6s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+  0%, 100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+/* Bank list / supported-bank rows */
+.bank-item,
+.bank-row,
+.card-bank {
+  transition:
+    transform .35s cubic-bezier(.2,.75,.2,1),
+    background .3s ease,
+    border-color .3s ease;
+}
+
+.bank-item:hover,
+.bank-row:hover,
+.card-bank:hover {
+  transform: translateX(7px);
+}
+
+/* Bank logos */
+.bank-logo,
+.bank-icon {
+  transition:
+    transform .35s cubic-bezier(.2,.75,.2,1);
+}
+
+.bank-item:hover .bank-logo,
+.bank-row:hover .bank-logo,
+.card-bank:hover .bank-logo,
+.bank-item:hover .bank-icon,
+.bank-row:hover .bank-icon,
+.card-bank:hover .bank-icon {
+  transform: scale(1.08);
+}
+
+/* Floating decorative elements */
+.card-orbit,
+.card-glow,
+.card-decoration {
+  animation: cardDecoration 7s ease-in-out infinite;
+}
+
+@keyframes cardDecoration {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(8px, -10px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-image,
+  .card-visual,
+  .bank-card,
+  .card-image::after,
+  .card-visual::after,
+  .bank-card::after,
+  .card-orbit,
+  .card-glow,
+  .card-decoration {
+    animation: none;
+  }
+}
+
+
 </style>

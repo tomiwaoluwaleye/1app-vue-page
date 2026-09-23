@@ -785,4 +785,142 @@ function selectStep(index) {
   }
 
 }
+
+/* =========================================================
+   PREMIUM HOW-IT-WORKS MOTION
+   ========================================================= */
+
+.how-it-works {
+  perspective: 1200px;
+}
+
+/* Step cards */
+.step-card,
+.how-step,
+.step {
+  transition:
+    transform .45s cubic-bezier(.2,.75,.2,1),
+    box-shadow .45s ease,
+    border-color .35s ease;
+}
+
+.step-card:hover,
+.how-step:hover,
+.step:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 55px rgba(27, 22, 64, .10);
+}
+
+/* Step number */
+.step-number,
+.step-index {
+  transition:
+    transform .4s cubic-bezier(.2,.75,.2,1),
+    background .3s ease;
+}
+
+.step-card:hover .step-number,
+.how-step:hover .step-number,
+.step:hover .step-number,
+.step-card:hover .step-index,
+.how-step:hover .step-index,
+.step:hover .step-index {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+/* Connecting line */
+.steps,
+.steps-grid,
+.how-steps {
+  position: relative;
+}
+
+.steps::before,
+.steps-grid::before,
+.how-steps::before {
+  animation: howLineFlow 4s linear infinite;
+}
+
+@keyframes howLineFlow {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 120px 0;
+  }
+}
+
+/* Icons / visual elements */
+.step-icon,
+.how-icon,
+.step-visual {
+  transition:
+    transform .5s cubic-bezier(.2,.75,.2,1);
+}
+
+.step-card:hover .step-icon,
+.how-step:hover .how-icon,
+.step:hover .step-icon,
+.step-card:hover .step-visual,
+.how-step:hover .step-visual,
+.step:hover .step-visual {
+  transform: translateY(-5px) scale(1.05);
+}
+
+/* Small floating motion */
+.step-card:nth-child(1),
+.how-step:nth-child(1),
+.step:nth-child(1) {
+  animation: stepFloat1 5s ease-in-out infinite;
+}
+
+.step-card:nth-child(2),
+.how-step:nth-child(2),
+.step:nth-child(2) {
+  animation: stepFloat2 5.5s ease-in-out infinite;
+}
+
+.step-card:nth-child(3),
+.how-step:nth-child(3),
+.step:nth-child(3) {
+  animation: stepFloat3 6s ease-in-out infinite;
+}
+
+@keyframes stepFloat1 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes stepFloat2 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes stepFloat3 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Stop floating when user hovers */
+.step-card:hover,
+.how-step:hover,
+.step:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-card,
+  .how-step,
+  .step {
+    animation: none;
+  }
+
+  .steps::before,
+  .steps-grid::before,
+  .how-steps::before {
+    animation: none;
+  }
+}
+
 </style>

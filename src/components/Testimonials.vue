@@ -684,4 +684,71 @@ function selectTestimonial(index) {
 
 }
 
+
+/* =========================================================
+   PREMIUM TESTIMONIAL MOTION
+   ========================================================= */
+
+.testimonials,
+.testimonial-section {
+  perspective: 1000px;
+}
+
+.testimonial-card,
+.quote-card,
+.testimonial {
+  transition:
+    transform .5s cubic-bezier(.2,.75,.2,1),
+    box-shadow .5s ease,
+    border-color .35s ease;
+}
+
+.testimonial-card:hover,
+.quote-card:hover,
+.testimonial:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 26px 60px rgba(27,22,64,.11);
+}
+
+.testimonial-avatar,
+.avatar,
+.quote-avatar {
+  transition:
+    transform .4s cubic-bezier(.2,.75,.2,1);
+}
+
+.testimonial-card:hover .testimonial-avatar,
+.testimonial-card:hover .avatar,
+.quote-card:hover .quote-avatar {
+  transform: scale(1.08);
+}
+
+.quote-mark {
+  animation: quoteFloat 5s ease-in-out infinite;
+}
+
+@keyframes quoteFloat {
+  0%,100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.testimonial-card:nth-child(2) {
+  animation-delay: -.8s;
+}
+
+.testimonial-card:nth-child(3) {
+  animation-delay: -1.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-mark {
+    animation: none;
+  }
+}
+
 </style>
